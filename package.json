@@ -5,9 +5,7 @@
     "dev": "blitz dev",
     "build": "blitz build",
     "start": "blitz start",
-    "studio": "blitz prisma studio",
-    "test": "vitest run --passWithNoTests",
-    "test:watch": "vitest"
+    "studio": "blitz prisma studio"
   },
   "prisma": {
     "schema": "db/schema.prisma"
