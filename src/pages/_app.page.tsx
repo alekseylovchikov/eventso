@@ -1,5 +1,5 @@
 import { AppProps, ErrorBoundary } from '@blitzjs/next';
-import React, { Component, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { withBlitz } from 'src/blitz-client';
 import { MantineProvider } from '@mantine/core';
 import 'src/styles/globals.css';
