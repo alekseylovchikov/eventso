@@ -5,7 +5,10 @@ import { UserInfo } from '@/core/components/UserInfo';
 const Home: BlitzPage = () => {
   return (
     <Layout title="Home">
-      <UserInfo />
+      <div>
+        <div>hello</div>
+        <div>world</div>
+      </div>
     </Layout>
   );
 };
