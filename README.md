@@ -4,5 +4,5 @@
 
 - Blitz.js
 - Mantine
-- Prizam
+- Prizma
 - Zod
