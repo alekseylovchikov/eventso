@@ -1,9 +1,12 @@
 import Head from 'next/head';
 import React, { Suspense } from 'react';
 import { BlitzLayout, Routes } from '@blitzjs/next';
-import { AppShell, Header, Text, Footer, Anchor } from '@mantine/core';
+import { AppShell, Header, Text, Footer, Anchor, Button, Loader } from '@mantine/core';
 import { Horizontal, Vertical } from 'mantine-layout-components';
 import Link from 'next/link';
+import { useMutation } from '@blitzjs/rpc';
+import logout from '@/features/auth/mutations/logout';
+import { useCurrentUser } from '@/features/users/hooks/useCurrentUser';
 
 type Props = {
   title?: string;
@@ -13,6 +16,8 @@ type Props = {
 
 const Layout: BlitzLayout<Props> = ({ title, children }) => {
   const thisYear = new Date().getFullYear();
+  const [logoutMutation] = useMutation(logout);
+  const user = useCurrentUser();
 
   return (
     <>
@@ -30,8 +35,8 @@ const Layout: BlitzLayout<Props> = ({ title, children }) => {
           //   </Navbar>
           // }
           header={
-            <Header height={50} p="xs">
-              <Horizontal fullH>
+            <Header height={55} p="xs">
+              <Horizontal fullH spaceBetween fullW>
                 <Anchor
                   color="green.2"
                   underline={false}
@@ -41,6 +46,18 @@ const Layout: BlitzLayout<Props> = ({ title, children }) => {
                 >
                   Eventso
                 </Anchor>
+
+                {user && (
+                  <Button
+                    size="xs"
+                    variant="subtle"
+                    onClick={async () => {
+                      await logoutMutation();
+                    }}
+                  >
+                    Logout
+                  </Button>
+                )}
               </Horizontal>
             </Header>
           }
@@ -61,7 +78,7 @@ const Layout: BlitzLayout<Props> = ({ title, children }) => {
           })}
         >
           <Vertical fullH fullW>
-            {children}
+            <Suspense fallback={<Loader />}>{children}</Suspense>
           </Vertical>
         </AppShell>
       </Suspense>

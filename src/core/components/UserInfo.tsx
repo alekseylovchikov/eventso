@@ -1,30 +1,40 @@
+import getTodos from '@/features/todos/queries/getTodos';
 import { useCurrentUser } from '@/features/users/hooks/useCurrentUser';
-import { useMutation } from '@blitzjs/rpc';
-import logout from '@/features/auth/mutations/logout';
-import Link from 'next/link';
-import { Routes } from '@blitzjs/next';
-import { Button } from '@mantine/core';
+import { useQuery } from '@blitzjs/rpc';
+import { List, Loader, Text } from '@mantine/core';
+import { Vertical } from 'mantine-layout-components';
+import { Suspense } from 'react';
+
+const Todos = () => {
+  const [todos] = useQuery(getTodos, {});
+
+  return (
+    <List>
+      {todos.map((todo) => (
+        <List.Item key={todo.id}>
+          <Text>{todo.title}</Text>
+        </List.Item>
+      ))}
+    </List>
+  );
+};
 
 export const UserInfo = () => {
   const currentUser = useCurrentUser();
-  const [logoutMutation] = useMutation(logout);
 
   if (!currentUser) return null;
 
   return (
-    <>
-      <Button
-        onClick={async () => {
-          await logoutMutation();
-        }}
-      >
-        Logout
-      </Button>
-      <div>
+    <Vertical>
+      <Suspense fallback={<Loader />}>
+        <Todos />
+      </Suspense>
+      <Text>
         User id: <code>{currentUser.id}</code>
-        <br />
+      </Text>
+      <Text>
         User role: <code>{currentUser.role}</code>
-      </div>
-    </>
+      </Text>
+    </Vertical>
   );
 };
