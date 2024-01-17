@@ -1,10 +1,16 @@
+import { email, password } from './../schemas';
 import { SecurePassword } from '@blitzjs/auth/secure-password';
 import { resolver } from '@blitzjs/rpc';
-import db from '../../../../db';
-import { Role } from '../../../../types';
-import { Signup } from '../schemas';
+import db from '~/db';
+import { Role } from '~/types';
+import { z } from 'zod';
 
-export default resolver.pipe(resolver.zod(Signup), async ({ email, password }, ctx) => {
+const Input = z.object({
+  email,
+  password,
+});
+
+export default resolver.pipe(resolver.zod(Input), async ({ email, password }, ctx) => {
   const hashedPassword = await SecurePassword.hash(password.trim());
   const user = await db.user.create({
     data: { email: email.toLowerCase().trim(), hashedPassword, role: 'USER' },
