@@ -48,15 +48,18 @@ const Layout: BlitzLayout<Props> = ({ title, children }) => {
                 </Anchor>
 
                 {user && (
-                  <Button
-                    size="xs"
-                    variant="subtle"
-                    onClick={async () => {
-                      await logoutMutation();
-                    }}
-                  >
-                    Logout
-                  </Button>
+                  <Horizontal>
+                    <Text>{user.name}</Text>
+                    <Button
+                      size="xs"
+                      variant="subtle"
+                      onClick={async () => {
+                        await logoutMutation();
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </Horizontal>
                 )}
               </Horizontal>
             </Header>
