@@ -15,17 +15,18 @@ export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElem
 }
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
-  ({ label, outerProps, labelProps, name, ...props }, ref) => {
+  ({ label, outerProps, labelProps, name, size, ...props }, ref) => {
     const {
       register,
       formState: { isSubmitting, errors },
     } = useFormContext();
+    const sizeProp: MantineSize | undefined = size as MantineSize | undefined;
 
     return (
       <div {...outerProps}>
         <label {...labelProps}>
           {label}
-          <Input disabled={isSubmitting} {...register(name)} {...props} />
+          <Input disabled={isSubmitting} size={sizeProp} {...register(name)} {...props} />
         </label>
 
         <ErrorMessage
