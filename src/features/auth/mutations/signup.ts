@@ -13,6 +13,7 @@ const Input = z.object({
 
 export default resolver.pipe(resolver.zod(Input), async ({ email, password, name }, ctx) => {
   const hashedPassword = await SecurePassword.hash(password.trim());
+
   const user = await db.user.create({
     data: { email: email.toLowerCase().trim(), name, hashedPassword, role: 'USER' },
     select: { id: true, name: true, email: true, role: true },
