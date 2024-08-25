@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React, { Suspense } from 'react';
-import { BlitzLayout, Routes } from '@blitzjs/next';
+import { Routes } from '@blitzjs/next';
 import { AppShell, Header, Text, Footer, Anchor, Button, Loader, Tooltip } from '@mantine/core';
 import { Horizontal, Vertical } from 'mantine-layout-components';
 import Link from 'next/link';
