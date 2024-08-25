@@ -8,14 +8,14 @@ import { RootErrorFallback } from '@/core/components/RootErrorFallback';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: 'dark' }}>
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: 'dark' }}>
+      <ErrorBoundary FallbackComponent={RootErrorFallback}>
         <Notifications position="top-right" />
         <Suspense fallback={<Loader />}>
           <Component {...pageProps} />
         </Suspense>
-      </MantineProvider>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </MantineProvider>
   );
 }
 

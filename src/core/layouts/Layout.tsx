@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React, { Suspense } from 'react';
-import { Routes } from '@blitzjs/next';
+import { ErrorBoundary, Routes } from '@blitzjs/next';
 import { AppShell, Header, Text, Footer, Anchor, Button, Loader, Tooltip } from '@mantine/core';
 import { Horizontal, Vertical } from 'mantine-layout-components';
 import Link from 'next/link';
@@ -9,6 +9,8 @@ import logout from '@/features/auth/mutations/logout';
 import { useCurrentUser } from '@/features/users/hooks/useCurrentUser';
 import { ReactFC } from '~/types';
 import { IconUserShield } from '@tabler/icons-react';
+import { RootErrorFallback } from '@/core/components/RootErrorFallback';
+import { useRouter } from 'next/router';
 
 type Props = {
   title?: string;
@@ -20,6 +22,8 @@ const Layout: ReactFC<Props> = ({ title, children }) => {
   const thisYear = new Date().getFullYear();
   const [logoutMutation] = useMutation(logout);
   const user = useCurrentUser();
+
+  const router = useRouter();
 
   return (
     <>
@@ -64,6 +68,7 @@ const Layout: ReactFC<Props> = ({ title, children }) => {
                       variant="subtle"
                       onClick={async () => {
                         await logoutMutation();
+                        await router.push('/');
                       }}
                     >
                       Logout
@@ -90,7 +95,17 @@ const Layout: ReactFC<Props> = ({ title, children }) => {
           })}
         >
           <Vertical fullH fullW>
-            <Suspense fallback={<Loader />}>{children}</Suspense>
+            <ErrorBoundary resetKeys={[user]} FallbackComponent={RootErrorFallback}>
+              <Suspense
+                fallback={
+                  <Vertical center fullH fullW>
+                    <Loader />
+                  </Vertical>
+                }
+              >
+                {children}
+              </Suspense>
+            </ErrorBoundary>
           </Vertical>
         </AppShell>
       </Suspense>
