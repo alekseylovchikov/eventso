@@ -28,8 +28,8 @@ const Todo = ({ todo }) => {
 const Todos = () => {
   const [todoTitle, setTodoTitle] = useState('');
   const [todos] = useQuery(getTodos, {});
-  const [$addTodo] = useMutation(addTodo, {});
-  const [$cleanCompleted] = useMutation(cleanCompleted, {});
+  const [$addTodo, { isLoading: addTodoIsLoading }] = useMutation(addTodo, {});
+  const [$cleanCompleted, { isLoading: cleanCompletedIsLoading }] = useMutation(cleanCompleted, {});
 
   return (
     <Vertical>
@@ -38,8 +38,12 @@ const Todos = () => {
         onChange={(e) => setTodoTitle(e.target.value)}
         placeholder="Add todo"
       />
-      <Button onClick={async () => await $addTodo({ todoTitle })}>Create todo</Button>
-      <Button onClick={async () => await $cleanCompleted({})}>Clean completed</Button>
+      <Button loading={addTodoIsLoading} onClick={async () => await $addTodo({ todoTitle })}>
+        Create todo
+      </Button>
+      <Button loading={cleanCompletedIsLoading} onClick={async () => await $cleanCompleted({})}>
+        Clean completed
+      </Button>
       <List>
         {todos.map((todo) => (
           <Todo key={todo.id} todo={todo} />
