@@ -8,8 +8,16 @@ import { Horizontal, Vertical } from 'mantine-layout-components';
 import { Suspense, useState } from 'react';
 import toggleTodo from '@/features/todos/mutations/toggleTodo';
 import cleanCompleted from '@/features/todos/mutations/cleanCompleted';
+import { ReactFC } from '~/types';
+import { PromiseReturnType } from 'blitz';
 
-const Todo = ({ todo }) => {
+type Todos = PromiseReturnType<typeof getTodos>;
+
+type Props = {
+  todo: Todos[number];
+};
+
+const Todo: ReactFC<Props> = ({ todo }) => {
   const [$toggleTodo, { isLoading }] = useMutation(toggleTodo);
 
   return (
