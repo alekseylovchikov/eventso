@@ -10,11 +10,12 @@ import toggleTodo from '@/features/todos/mutations/toggleTodo';
 import cleanCompleted from '@/features/todos/mutations/cleanCompleted';
 
 const Todo = ({ todo }) => {
-  const [$toggleTodo] = useMutation(toggleTodo);
+  const [$toggleTodo, { isLoading }] = useMutation(toggleTodo);
 
   return (
     <Horizontal>
       <Checkbox
+        disabled={isLoading}
         checked={todo.done}
         onClick={async () => {
           await $toggleTodo({ id: todo.id });
