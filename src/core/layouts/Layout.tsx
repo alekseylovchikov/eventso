@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React, { Suspense } from 'react';
 import { ErrorBoundary, Routes } from '@blitzjs/next';
-import { AppShell, Header, Text, Footer, Anchor, Button, Loader, Tooltip } from '@mantine/core';
+import { AppShell, Header, Text, Footer, Anchor, Button, Tooltip } from '@mantine/core';
 import { Horizontal, Vertical } from 'mantine-layout-components';
 import Link from 'next/link';
 import { useMutation } from '@blitzjs/rpc';
@@ -11,6 +11,7 @@ import { ReactFC } from '~/types';
 import { IconUserShield } from '@tabler/icons-react';
 import { RootErrorFallback } from '@/core/components/RootErrorFallback';
 import { useRouter } from 'next/router';
+import { FullPageLoader } from '@/core/components/FullPageLoader';
 
 type Props = {
   title?: string;
@@ -96,15 +97,7 @@ const Layout: ReactFC<Props> = ({ title, children }) => {
         >
           <Vertical fullH fullW>
             <ErrorBoundary resetKeys={[user]} FallbackComponent={RootErrorFallback}>
-              <Suspense
-                fallback={
-                  <Vertical center fullH fullW>
-                    <Loader />
-                  </Vertical>
-                }
-              >
-                {children}
-              </Suspense>
+              <Suspense fallback={<FullPageLoader />}>{children}</Suspense>
             </ErrorBoundary>
           </Vertical>
         </AppShell>
