@@ -5,12 +5,11 @@ import getTodos from '@/features/todos/queries/getTodos';
 import { useMutation, useQuery } from '@blitzjs/rpc';
 import { Button, Checkbox, Input, List, Text } from '@mantine/core';
 import { Horizontal, Vertical } from 'mantine-layout-components';
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import toggleTodo from '@/features/todos/mutations/toggleTodo';
 import cleanCompleted from '@/features/todos/mutations/cleanCompleted';
 import { ReactFC } from '~/types';
 import { PromiseReturnType } from 'blitz';
-import { FullPageLoader } from '@/core/components/FullPageLoader';
 
 type Todos = PromiseReturnType<typeof getTodos>;
 
@@ -69,9 +68,7 @@ const Todos = () => {
 export const TodosPage: BlitzPage = () => {
   return (
     <Layout>
-      <Suspense fallback={<FullPageLoader />}>
-        <Todos />
-      </Suspense>
+      <Todos />
     </Layout>
   );
 };
