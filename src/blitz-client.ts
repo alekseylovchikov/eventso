@@ -18,12 +18,20 @@ export const { withBlitz } = setupBlitzClient({
             const queryClient = getQueryClient();
             await queryClient.invalidateQueries();
           },
-          async onError(error: any) {
-            notifications.show({
-              color: 'red',
-              title: 'Error',
-              message: error.message,
-            });
+          async onError(error: unknown) {
+            if (error instanceof Error) {
+              notifications.show({
+                color: 'red',
+                title: 'Error',
+                message: error.message,
+              });
+            } else {
+              notifications.show({
+                color: 'red',
+                title: 'Error',
+                message: 'Unknown error occurred',
+              });
+            }
           },
         },
       },
