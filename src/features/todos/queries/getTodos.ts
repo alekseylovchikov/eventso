@@ -10,7 +10,6 @@ export default resolver.pipe(
   resolver.zod(Input),
   resolver.authorize(),
   async ({}, { session: { userId } }) => {
-    throw new Error('Not implemented');
     return db.todo.findMany({
       where: { userId },
       orderBy: { createdAt: 'asc' },
