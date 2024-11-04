@@ -10,3 +10,10 @@ export const password = z
   .min(10)
   .max(100)
   .transform((str) => str.trim());
+
+export const SignupInput = z.object({
+  email,
+  password,
+  name: z.string(),
+  terms: z.boolean().refine((val) => val, { message: 'You must accept the terms and conditions' }),
+});
